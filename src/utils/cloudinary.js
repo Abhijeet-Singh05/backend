@@ -9,18 +9,20 @@ cloudinary.config({
 });
 
 
+
 const uploadOnCloudinary= async (localFilePath)=>{
     try{
         if(!localFilePath){
             throw new Error("File path is required");
         }
 
-        const response = await cloudinary.v2.uploader.upload(localFilePath,{
+        const response = await cloudinary.uploader.upload(localFilePath,{
             resource_type: "auto",
         });
 
         console.log("File uploaded on cloudinary successfully");
         console.log(response.url);
+        fs.unlinkSync(localFilePath); // delete the local file after upload
         return response;
     }
     catch(err){
